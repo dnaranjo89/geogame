@@ -11,7 +11,7 @@ import type { Progress as ProgressType } from "./types";
 import "./App.css";
 import { getLocationFromImage } from "./utils/getLocationFromImage";
 
-const DISTANCE_THRESHOLD = 25; // km
+const DISTANCE_THRESHOLD = 0.1; // km
 const DEBUG = false; // Set to false to hide the actual location marker
 
 const getInitialProgress = () => ({
