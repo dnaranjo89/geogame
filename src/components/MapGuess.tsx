@@ -30,9 +30,9 @@ const MapGuess: React.FC<MapGuessProps> = ({
 }) => (
   <MapContainer
     // @ts-expect-error problem with types
-    center={[48.8584, 2.2945]}
-    zoom={7}
-    style={{ height: 350, width: "100%" }}
+    center={[38.42523518997033, -6.4196822000000004]}
+    zoom={5}
+    style={{ height: "100%", width: "100%" }}
     scrollWheelZoom={!disabled}
   >
     <TileLayer
@@ -41,7 +41,7 @@ const MapGuess: React.FC<MapGuessProps> = ({
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
     {guess && <Marker position={[guess.lat, guess.lng]} />}
-    {debugLocation && (
+    {debugLocation && debugLocation.lat !== 0 && debugLocation.lng !== 0 && (
       <Marker
         position={[debugLocation.lat, debugLocation.lng]}
         // @ts-ignore
