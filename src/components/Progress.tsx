@@ -7,7 +7,7 @@ interface ProgressProps {
 
 const Progress: React.FC<ProgressProps> = ({ current, total }) => (
   <div style={{ margin: "12px 0", fontWeight: 500 }}>
-    Image {current + 1} of {total}
+    Imagen {current + 1} de {total}
   </div>
 );
 

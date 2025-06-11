@@ -26,16 +26,16 @@ const Feedback: React.FC<FeedbackProps> = ({
           display: "inline-block",
         }}
       >
-        Correct! You were only {distance.toFixed(2)} km away. Attempts:{" "}
+        ¡Correcto! Estuviste a solo {distance.toFixed(2)} km. Intentos:{" "}
         {attempts}
       </div>
     );
   }
-  let message = "Try again!";
-  if (distance > 1000) message = "Very far!";
-  else if (distance > 200) message = "Far!";
-  else if (distance > 50) message = "Getting closer!";
-  else message = "Very close!";
+  let message = "¡Intenta de nuevo!";
+  if (distance > 1000) message = "¡Muy lejos!";
+  else if (distance > 200) message = "Lejos!";
+  else if (distance > 50) message = "¡Más cerca!";
+  else message = "¡Muy cerca!";
   return (
     <div
       style={{
@@ -49,7 +49,7 @@ const Feedback: React.FC<FeedbackProps> = ({
         display: "inline-block",
       }}
     >
-      {message} You were {distance.toFixed(2)} km away.
+      {message} Estuviste a {distance.toFixed(2)} km.
     </div>
   );
 };

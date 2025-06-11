@@ -12,7 +12,7 @@ import "./App.css";
 import { getLocationFromImage } from "./utils/getLocationFromImage";
 
 const DISTANCE_THRESHOLD = 25; // km
-const DEBUG = true; // Set to false to hide the actual location marker
+const DEBUG = false; // Set to false to hide the actual location marker
 
 const getInitialProgress = () => ({
   currentImage: 0,
@@ -103,29 +103,54 @@ const App: React.FC = () => {
     setDistance(null);
     setAttempts(0);
     setLoc();
-    return () => { ignore = true; };
+    return () => {
+      ignore = true;
+    };
   }, [progress.currentImage]);
 
   if (progress.completed) {
     return (
       <div style={{ textAlign: "center", marginTop: 40 }}>
-        <h2>Congratulations! You finished the game.</h2>
+        <h2>¡Felicidades! Has terminado el juego.</h2>
       </div>
     );
   }
 
   return (
-    <div style={{ width: '100vw', height: '100vh', margin: 0, padding: 0, position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: 16, left: 16, zIndex: 1000, background: 'rgba(255,255,255,0.95)', borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.12)', padding: 8, maxWidth: 350 }}>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        margin: 0,
+        padding: 0,
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          top: 16,
+          left: 16,
+          zIndex: 1000,
+          background: "rgba(255,255,255,0.95)",
+          borderRadius: 8,
+          boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+          padding: 8,
+          maxWidth: 350,
+        }}
+      >
         <ImageDisplay src={current.src} alt={current.alt} />
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <Progress current={progress.currentImage} total={imageData.length} />
-          <span style={{ fontSize: 14, color: '#888', fontWeight: 500 }}>
-            ID: {current.id}
-          </span>
+          {DEBUG && (
+            <span style={{ fontSize: 14, color: "#888", fontWeight: 500 }}>
+              ID: {current.id}
+            </span>
+          )}
         </div>
       </div>
-      <div style={{ width: '100vw', height: '100vh' }}>
+      <div style={{ width: "100vw", height: "100vh" }}>
         <MapGuess
           guess={guess}
           setGuess={handleMapGuess}
@@ -133,21 +158,41 @@ const App: React.FC = () => {
           debugLocation={DEBUG ? actualLocation : undefined}
         />
       </div>
-      <div style={{ position: 'absolute', bottom: 32, left: 0, width: '100vw', display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 1001 }}>
-        <div style={{ margin: '16px 0', display: 'flex', gap: 16 }}>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 32,
+          left: 0,
+          width: "100vw",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          zIndex: 1001,
+        }}
+      >
+        <div style={{ margin: "16px 0", display: "flex", gap: 16 }}>
           <button
             onClick={handleSubmit}
-            disabled={!guess || (distance !== null && distance <= DISTANCE_THRESHOLD)}
-            style={{ padding: '8px 20px', fontSize: 16 }}
+            disabled={
+              !guess || (distance !== null && distance <= DISTANCE_THRESHOLD)
+            }
+            style={{ padding: "8px 20px", fontSize: 16 }}
           >
-            Submit Guess
+            Enviar respuesta
           </button>
           {DEBUG && (
             <button
               onClick={handleNext}
-              style={{ padding: '8px 20px', fontSize: 16, background: '#e0ffe0', color: '#1a7f1a', border: '1px solid #1a7f1a', borderRadius: 4 }}
+              style={{
+                padding: "8px 20px",
+                fontSize: 16,
+                background: "#e0ffe0",
+                color: "#1a7f1a",
+                border: "1px solid #1a7f1a",
+                borderRadius: 4,
+              }}
             >
-              Skip (Debug)
+              Siguiente (Debug)
             </button>
           )}
         </div>
