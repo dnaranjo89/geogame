@@ -24,8 +24,8 @@ const GuessMarker: React.FC<{
 const MapGuess: React.FC<MapGuessProps> = ({ guess, setGuess, disabled }) => (
   <MapContainer
     // @ts-expect-error problem with types
-    center={[20, 0]}
-    zoom={2}
+    center={[48.8584, 2.2945]}
+    zoom={7}
     style={{ height: 350, width: "100%" }}
     scrollWheelZoom={!disabled}
   >
