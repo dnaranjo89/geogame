@@ -9,8 +9,10 @@ import Progress from "./components/Progress";
 import NextButton from "./components/NextButton";
 import type { Progress as ProgressType } from "./types";
 import "./App.css";
+import { getLocationFromImage } from "./utils/getLocationFromImage";
 
 const DISTANCE_THRESHOLD = 25; // km
+const DEBUG = true; // Set to false to hide the actual location marker
 
 const getInitialProgress = () => ({
   currentImage: 0,
@@ -26,20 +28,36 @@ const App: React.FC = () => {
   const [guess, setGuess] = useState<{ lat: number; lng: number } | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
   const [attempts, setAttempts] = useState(0);
+  const [actualLocation, setActualLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
   const current = imageData[progress.currentImage];
+  console.log("Current loc:", actualLocation);
 
   const handleMapGuess = (coords: { lat: number; lng: number }) => {
     setGuess(coords);
   };
+  console.log("distance", distance);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!guess) return;
-    const d = calculateDistance(
-      guess.lat,
-      guess.lng,
-      current.location.lat,
-      current.location.lng
-    );
+    let loc = null;
+    // Try to get location from image metadata
+    if (current.src) {
+      try {
+        const metaLoc = await getLocationFromImage(current.src);
+        if (metaLoc) {
+          loc = metaLoc;
+        }
+      } catch {}
+    }
+    // Fallback to hardcoded location if no EXIF found
+    if (!loc) {
+      loc = current.location;
+    }
+    setActualLocation(loc); // Save for debug marker
+    const d = calculateDistance(guess.lat, guess.lng, loc.lat, loc.lng);
     setDistance(d);
     setAttempts((a) => a + 1);
     setProgress((prev: ProgressType) => ({
@@ -67,6 +85,7 @@ const App: React.FC = () => {
     setGuess(null);
     setDistance(null);
     setAttempts(0);
+    setActualLocation(null);
   }, [progress.currentImage]);
 
   if (progress.completed) {
@@ -85,6 +104,7 @@ const App: React.FC = () => {
         guess={guess}
         setGuess={handleMapGuess}
         disabled={distance !== null && distance <= DISTANCE_THRESHOLD}
+        debugLocation={DEBUG ? actualLocation : undefined}
       />
       <div style={{ margin: "16px 0" }}>
         <button
