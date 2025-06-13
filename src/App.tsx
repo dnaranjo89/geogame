@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { imageData } from "./assets/images";
 import { calculateDistance } from "./utils/distance";
 import { useLocalStorage } from "./hooks/useLocalStorage";
-import ImageDisplay from "./components/ImageDisplay";
 import MapGuess from "./components/MapGuess";
 import Feedback from "./components/Feedback";
-import Progress from "./components/Progress";
 import NextButton from "./components/NextButton";
+import ImageAndProgress from "./components/ImageAndProgress";
 import type { Progress as ProgressType } from "./types";
 import "./App.css";
 import { getLocationFromImage } from "./utils/getLocationFromImage";
@@ -166,46 +165,15 @@ const App: React.FC = () => {
         overflow: "hidden",
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          top: 16,
-          left: 16,
-          zIndex: 1000,
-          background: "rgba(255,255,255,0.95)",
-          borderRadius: 8,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
-          padding: 8,
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <ImageDisplay src={current.src} alt={current.alt} />
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Progress current={progress.currentImage} total={imageData.length} />
-          <span
-            style={{
-              fontSize: 15,
-              color: "#1a7f1a",
-              fontWeight: 500,
-              marginLeft: 2,
-            }}
-          >
-            (±{currentThreshold} km)
-          </span>
-          {DEBUG && (
-            <span style={{ fontSize: 14, color: "#888", fontWeight: 500 }}>
-              ID: {current.id}
-            </span>
-          )}
-        </div>
-      </div>
+      <ImageAndProgress
+        src={current.src}
+        alt={current.alt}
+        progressCurrent={progress.currentImage}
+        progressTotal={imageData.length}
+        currentThreshold={currentThreshold}
+        debug={DEBUG}
+        debugId={current.id}
+      />
       <div style={{ width: "100vw", height: "100vh" }}>
         <MapGuess
           guess={guess}
@@ -234,7 +202,17 @@ const App: React.FC = () => {
               (distance !== null && distance <= DISTANCE_THRESHOLD) ||
               isCurrentFailed
             }
-            style={{ padding: "8px 20px", fontSize: 16 }}
+            style={{
+              padding: "8px 20px",
+              fontSize: 16,
+              background: "#eafbe6",
+              color: "#1a7f1a",
+              border: "1px solid #1a7f1a",
+              borderRadius: 6,
+              fontWeight: 600,
+              boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+              transition: "background 0.2s, color 0.2s",
+            }}
           >
             Enviar respuesta
           </button>

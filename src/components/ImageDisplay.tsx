@@ -3,20 +3,17 @@ import React, { useState } from "react";
 interface ImageDisplayProps {
   src: string;
   alt: string;
+  onClick?: () => void;
 }
 
-const ImageDisplay: React.FC<ImageDisplayProps> = ({ src, alt }) => {
+const ImageDisplay: React.FC<ImageDisplayProps> = ({ src, alt, onClick }) => {
   const [expanded, setExpanded] = useState(false);
   // Use a media query to detect mobile
   const isMobile =
     typeof window !== "undefined" &&
     window.matchMedia("(max-width: 600px)").matches;
-  // Make image bigger on desktop
-  const smallSize = isMobile ? 90 : 500;
-  const largeSize = isMobile ? 220 : 700; // large but not excessive
-  const size = expanded ? largeSize : smallSize;
-
-  console.log("isMobile", isMobile);
+  // Only use expanded for mobile
+  // The parent now controls the container size
 
   return (
     <div style={{ textAlign: "center", marginBottom: 16 }}>
@@ -24,9 +21,10 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ src, alt }) => {
         src={src}
         alt={alt}
         style={{
-          width: size, // force width
+          width: "100%",
           height: "auto",
           maxWidth: "100%",
+          maxHeight: 480,
           borderRadius: 8,
           transition: "width 0.3s, max-width 0.3s, max-height 0.3s",
           cursor: isMobile ? "pointer" : undefined,
@@ -35,7 +33,10 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ src, alt }) => {
           margin: "0 auto",
         }}
         onClick={() => {
-          if (isMobile) setExpanded((e) => !e);
+          if (isMobile) {
+            setExpanded((e) => !e);
+            if (onClick) onClick();
+          }
         }}
       />
     </div>
