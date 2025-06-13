@@ -12,7 +12,7 @@ import "./App.css";
 import { getLocationFromImage } from "./utils/getLocationFromImage";
 
 const DISTANCE_THRESHOLD = 0.1; // km
-const DEBUG = true; // Set to false to hide the actual location marker
+const DEBUG = false; // Set to false to hide the actual location marker
 // Premio total y por imagen
 const POOL_TOTAL = 1000; // euros
 const PRIZE_PER_PHOTO = Math.floor(POOL_TOTAL / imageData.length);
