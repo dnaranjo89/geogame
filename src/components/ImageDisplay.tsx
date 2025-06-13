@@ -11,7 +11,7 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ src, alt, onClick }) => {
   // Use a media query to detect mobile
   const isMobile =
     typeof window !== "undefined" &&
-    window.matchMedia("(max-width: 600px)").matches;
+    window.matchMedia("(max-width: 602px)").matches;
   // Only use expanded for mobile
   // The parent now controls the container size
 

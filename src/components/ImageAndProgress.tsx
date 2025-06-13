@@ -25,16 +25,20 @@ const ImageAndProgress: React.FC<ImageAndProgressProps> = ({
   // Detect mobile
   const isMobile =
     typeof window !== "undefined" &&
-    window.matchMedia("(max-width: 90vw)").matches;
+    window.matchMedia("(max-width: 600px)").matches;
+  console.log("expanded", expanded, isMobile);
   // Responsive width logic
   let containerWidth = isMobile
     ? "clamp(100px, 33vw, 180px)"
     : "clamp(220px, 90vw, 520px)";
   if (isMobile && expanded) {
-    containerWidth = "min(98vw, 600px)";
+    containerWidth = "30wv";
   }
+
+  console.log("containerWidth", containerWidth);
   return (
     <div
+      data-id="image-and-progress"
       style={{
         position: "absolute",
         top: 16,
@@ -44,8 +48,9 @@ const ImageAndProgress: React.FC<ImageAndProgressProps> = ({
         borderRadius: 8,
         boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
         padding: 8,
-        maxWidth: 600,
-        width: containerWidth,
+        // maxWidth: 600,
+        width: isMobile && !expanded ? "90vw" : "25vw",
+        // width: "90",
         minWidth: 180,
         transition: "width 0.3s, max-width 0.3s",
       }}
